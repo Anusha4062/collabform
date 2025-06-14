@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+const API = process.env.REACT_APP_API_URL;
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -15,7 +17,7 @@ const LoginPage = () => {
       formData.append('username', username);
       formData.append('password', password);
 
-      const res = await axios.post('http://localhost:8000/auth/login', formData, {
+      const res = await axios.post(`${API}/auth/login`, formData, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
 
@@ -23,7 +25,7 @@ const LoginPage = () => {
       localStorage.setItem('token', token);
 
       // Step 2: Get user info to determine role
-      const me = await axios.get('http://localhost:8000/auth/me', {
+      const me = await axios.get(`${API}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
